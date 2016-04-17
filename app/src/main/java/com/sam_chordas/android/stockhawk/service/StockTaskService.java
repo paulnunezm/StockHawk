@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
@@ -61,9 +62,9 @@ public class StockTaskService extends GcmTaskService{
     // Store a reference in a shared reference to show an error message in the activity
     // We reset the value to true every time it's call as this service is call in a periodic time
     // and need to tell the activity when checking that everything is fine;
-    SharedPreferences sharedPreferences = mContext.getSharedPreferences("stock", MODE_PRIVATE);
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getString(R.string.pref_stock), MODE_PRIVATE);
     SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putBoolean("symbol", true);
+    editor.putBoolean(mContext.getString(R.string.pref_symbol_added), true);
     editor.commit();
 
     StringBuilder urlStringBuilder = new StringBuilder();
@@ -143,7 +144,7 @@ public class StockTaskService extends GcmTaskService{
           }else{
 
             // To tell the activity that something got wrong when adding a new stock.
-            editor.putBoolean("symbol", false);
+            editor.putBoolean(mContext.getString(R.string.pref_symbol_added), false);
             editor.commit();
 
             Log.e(LOG_TAG, "Error adding new symbol, it may not exist" );
