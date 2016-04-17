@@ -18,17 +18,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
-import com.melnykov.fab.FloatingActionButton;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -57,7 +54,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   private Context mContext;
   private Cursor mCursor;
   boolean isConnected;
-  private View container;
+  private android.support.design.widget.FloatingActionButton fab;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +81,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       }
     }
 
-    // To show the snackbar
-    container = findViewById(R.id.container);
-
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
@@ -101,9 +95,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }));
     recyclerView.setAdapter(mCursorAdapter);
 
-
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.attachToRecyclerView(recyclerView);
+    fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (isConnected){
@@ -118,11 +110,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                       new String[] { QuoteColumns.SYMBOL }, QuoteColumns.SYMBOL + "= ?",
                       new String[] { input.toString() }, null);
                   if (c.getCount() != 0) {
-                    Toast toast =
-                        Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                    toast.show();
+//                    Toast toast =
+//                        Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+//                            Toast.LENGTH_LONG);
+//                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+//                    toast.show();
+                    Snackbar.make(fab,"This stock is already saved!", Snackbar.LENGTH_SHORT ).show();
                     return;
                   } else {
                     // Add the stock to DB
@@ -178,7 +171,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   }
 
   public void networkToast(){
-    Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
+//    Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
+    Snackbar.make(fab, getString(R.string.network_toast), Snackbar.LENGTH_LONG).show();
   }
 
   public void restoreActionBar() {
@@ -245,7 +239,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         boolean symbolAdded = sharedPreferences.getBoolean(getString(R.string.pref_symbol_added), true);
         Log.d("MAIN_ACT", "OnsharedPref  - "+String.valueOf(symbolAdded));
         if(!symbolAdded){
-            Snackbar.make(container, "Error adding stock symbol", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(fab, "Error adding stock symbol", Snackbar.LENGTH_SHORT).show();
         }
     }
   }

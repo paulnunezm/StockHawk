@@ -21,4 +21,8 @@
     <item name="android:textAllCaps">true</item>
   </style>
 
+  <style name="MyFloatingButton" parent="Theme.AppCompat.Light">
+    <item name="colorAccent">@color/material_blue_700</item>
+  </style>
+
 </resources>
