@@ -9,7 +9,6 @@ import android.database.DatabaseUtils;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.facebook.stetho.okhttp.StethoInterceptor;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
@@ -49,7 +48,7 @@ public class StockTaskService extends GcmTaskService{
         .url(url)
         .build();
 
-    client.networkInterceptors().add(new StethoInterceptor());
+//    client.networkInterceptors().add(new StethoInterceptor());
 
     Response response = client.newCall(request).execute();
     return response.body().string();
