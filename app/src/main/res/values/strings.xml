@@ -14,4 +14,6 @@
   <!-- Preferences -->
   <string name="pref_stock" translatable="false">stock</string>
   <string name="pref_symbol_added" translatable="false">symbol</string>
+  <string name="err_adding_stock">Error adding stock symbol</string>
+  <string name="msg_stock_already_saved">This stock is already saved!</string>
 </resources>

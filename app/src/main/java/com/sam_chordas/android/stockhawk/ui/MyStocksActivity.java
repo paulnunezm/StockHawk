@@ -111,7 +111,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                       new String[] { input.toString() }, null);
                   if (c.getCount() != 0) {
 
-                    Snackbar.make(fab,"This stock is already saved!", Snackbar.LENGTH_SHORT ).show();
+                    Snackbar.make(fab, R.string.msg_stock_already_saved, Snackbar.LENGTH_SHORT ).show();
                     return;
                   } else {
 
@@ -239,7 +239,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         boolean symbolAdded = sharedPreferences.getBoolean(getString(R.string.pref_symbol_added), true);
         Log.d("MAIN_ACT", "OnsharedPref  - "+String.valueOf(symbolAdded));
         if(!symbolAdded){
-            Snackbar.make(fab, "Error adding stock symbol", Snackbar.LENGTH_SHORT).show();
+            Log.d("MAIN_ACT", "snackbar  - ");
+            Snackbar.make(fab, R.string.err_adding_stock, Snackbar.LENGTH_SHORT).show();
         }
     }
   }
