@@ -3,10 +3,12 @@ package com.sam_chordas.android.stockhawk.service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.RemoteException;
 import android.util.Log;
+
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
@@ -16,9 +18,11 @@ import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by sam_chordas on 9/30/15.
@@ -53,6 +57,15 @@ public class StockTaskService extends GcmTaskService{
     if (mContext == null){
       mContext = this;
     }
+
+    // Store a reference in a shared reference to show an error message in the activity
+    // We reset the value to true every time it's call as this service is call in a periodic time
+    // and need to tell the activity when checking that everything is fine;
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences("stock", MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putBoolean("symbol", true);
+    editor.commit();
+
     StringBuilder urlStringBuilder = new StringBuilder();
     try{
       // Base URL for the Yahoo query
@@ -121,8 +134,20 @@ public class StockTaskService extends GcmTaskService{
             mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
                 null, null);
           }
-          mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-              Utils.quoteJsonToContentVals(getResponse));
+
+          ArrayList operations = Utils.quoteJsonToContentVals(getResponse);
+
+          if (operations != null) {
+            mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
+                    operations);
+          }else{
+
+            // To tell the activity that something got wrong when adding a new stock.
+            editor.putBoolean("symbol", false);
+            editor.commit();
+
+            Log.e(LOG_TAG, "Error adding new symbol, it may not exist" );
+          }
         }catch (RemoteException | OperationApplicationException e){
           Log.e(LOG_TAG, "Error applying batch insert", e);
         }
