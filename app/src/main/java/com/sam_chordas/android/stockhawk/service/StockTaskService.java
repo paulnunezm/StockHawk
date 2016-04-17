@@ -48,8 +48,6 @@ public class StockTaskService extends GcmTaskService{
         .url(url)
         .build();
 
-//    client.networkInterceptors().add(new StethoInterceptor());
-
     Response response = client.newCall(request).execute();
     return response.body().string();
   }
