@@ -34,7 +34,8 @@ public class DetailStockView extends LinearLayout {
                 R.styleable.DetailStockView,
                 0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source));
+        init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                a.getString(R.styleable.DetailStockView_stock_detail_title));
     }
 
     public DetailStockView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -46,7 +47,8 @@ public class DetailStockView extends LinearLayout {
                 R.styleable.DetailStockView,
                 0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source));
+        init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                a.getString(R.styleable.DetailStockView_stock_detail_title));
 
     }
 
@@ -59,18 +61,19 @@ public class DetailStockView extends LinearLayout {
                 R.styleable.DetailStockView,
                 0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source));
+        init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                a.getString(R.styleable.DetailStockView_stock_detail_title));
 
     }
 
 
     // Initialize views
-    private void init(Drawable imageSource){
+    private void init(Drawable imageSource, String titleText){
 
         //Inflate xml resource, pass "this" as the parent, we use <merge> tag in xml to avoid
         //redundant parent, otherwise a LinearLayout will be added to this LinearLayout ending up
         //with two view groups
-        inflate(getContext(), R.layout.detail_stock_view, this);
+        inflate(getContext(), R.layout.detail_stock_view, null);
 
         // get the references
         image = (ImageView) findViewById(R.id.stock_icon);
@@ -79,6 +82,9 @@ public class DetailStockView extends LinearLayout {
 
         // set the corresponding image
         image.setImageDrawable(imageSource);
+
+        // set the title text
+        setTitleText(titleText);
 
     }
 

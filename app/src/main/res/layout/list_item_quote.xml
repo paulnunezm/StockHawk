@@ -9,11 +9,14 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:paddingBottom="10dp"
-    >
+    android:background="@drawable/touch_selector_dark"
+    android:clickable="true">
+
   <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical">
+      android:orientation="vertical"
+      android:background="@android:color/transparent">
     <TextView
         android:id="@+id/stock_symbol"
         android:layout_width="wrap_content"
@@ -36,6 +39,7 @@
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:gravity="right"
+      android:background="@android:color/transparent"
       >
     <TextView
         android:id="@+id/bid_price"

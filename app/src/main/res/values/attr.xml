@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DetailStockView">
-        <attr name="image_source" format="reference">
-        </attr>
+        <attr name="image_source" format="reference"></attr>
+        <attr name="stock_detail_title" format="string"></attr>
     </declare-styleable>
 </resources>

@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.gcm.GcmNetworkManager;
@@ -161,6 +163,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     // For listening to sharedpreferences changes
       SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_stock), MODE_PRIVATE);
       sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+    Animation fabAnim = AnimationUtils.loadAnimation(this, R.anim.scale_anim);
+    fabAnim.setStartOffset(500);
+    fab.setAnimation(fabAnim);
   }
 
 
