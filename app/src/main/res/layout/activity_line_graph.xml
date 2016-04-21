@@ -33,6 +33,7 @@
             app:layout_columnWeight="1"
             app:image_source="@drawable/prev_close"
             app:backgroundTint="#9c8b68"
+            app:stock_detail_title="Prev. Close"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/high"
@@ -42,6 +43,7 @@
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
             app:image_source="@drawable/high"
+            app:stock_detail_title="High"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/volume"
@@ -51,6 +53,7 @@
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
             app:image_source="@drawable/volume"
+            app:stock_detail_title="Volume"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/open"
@@ -60,6 +63,7 @@
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
             app:image_source="@drawable/open"
+            app:stock_detail_title="Open"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/low"
@@ -69,6 +73,7 @@
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
             app:image_source="@drawable/low"
+            app:stock_detail_title="Low"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/mkt_cap"
@@ -78,6 +83,7 @@
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
             app:image_source="@drawable/mkt_cap"
+            app:stock_detail_title="Mkt. Cap."
             />
 
     </android.support.v7.widget.GridLayout>
