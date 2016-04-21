@@ -24,53 +24,60 @@
         app:columnCount="3">
 
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/prev_close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
             app:layout_columnSpan="1"
             app:layout_gravity="fill_horizontal"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/prev_close"
+            app:backgroundTint="#9c8b68"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/high"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_gravity="fill_horizontal"
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/high"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/volume"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_gravity="fill_horizontal"
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/volume"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_gravity="fill_horizontal"
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/open"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/low"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_gravity="fill_horizontal"
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/low"
             />
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
+            android:id="@+id/mkt_cap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_gravity="fill_horizontal"
             app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@mipmap/ic_launcher"
+            app:image_source="@drawable/mkt_cap"
             />
 
     </android.support.v7.widget.GridLayout>
