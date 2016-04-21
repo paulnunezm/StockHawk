@@ -29,26 +29,30 @@ public class DetailStockView extends LinearLayout {
     public DetailStockView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.DetailStockView,
-                0, 0);
+        if(!isInEditMode()){
+            TypedArray a = context.getTheme().obtainStyledAttributes(
+                    attrs,
+                    R.styleable.DetailStockView,
+                    0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source),
-                a.getString(R.styleable.DetailStockView_stock_detail_title));
+            init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                    a.getString(R.styleable.DetailStockView_stock_detail_title));
+        }
     }
 
     public DetailStockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.DetailStockView,
-                0, 0);
+        if(!isInEditMode()){
+            TypedArray a = context.getTheme().obtainStyledAttributes(
+                    attrs,
+                    R.styleable.DetailStockView,
+                    0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source),
-                a.getString(R.styleable.DetailStockView_stock_detail_title));
+            init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                    a.getString(R.styleable.DetailStockView_stock_detail_title));
+        }
 
     }
 
@@ -56,13 +60,15 @@ public class DetailStockView extends LinearLayout {
     public DetailStockView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.DetailStockView,
-                0, 0);
+        if(!isInEditMode()){
+            TypedArray a = context.getTheme().obtainStyledAttributes(
+                    attrs,
+                    R.styleable.DetailStockView,
+                    0, 0);
 
-        init(a.getDrawable(R.styleable.DetailStockView_image_source),
-                a.getString(R.styleable.DetailStockView_stock_detail_title));
+            init(a.getDrawable(R.styleable.DetailStockView_image_source),
+                    a.getString(R.styleable.DetailStockView_stock_detail_title));
+        }
 
     }
 
