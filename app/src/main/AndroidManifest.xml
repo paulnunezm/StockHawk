@@ -28,7 +28,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.HistoricalActivity"/>
+        <activity
+            android:name=".ui.HistoricalActivity"
+            android:parentActivityName=".ui.MyStocksActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MyStocksActivity" />
+        </activity>
 
         <service android:name="com.sam_chordas.android.stockhawk.service.StockTaskService"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"

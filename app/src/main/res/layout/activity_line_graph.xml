@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:stock="http://schemas.android.com/apk/res-auto/com.sam_chordas.android.stockhawk.ui"
     android:orientation="vertical">
 
     <!--<com.db.chart.view.LineChartView-->
@@ -11,79 +12,92 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dp"-->
         <!--android:layout_weight='3'/>-->
-    <com.db.chart.view.LineChartView
+    <!--<com.db.chart.view.LineChartView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="3"/>-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"/>
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:background="@color/accent"
+        ></LinearLayout>
 
     <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:padding="10dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:columnCount="3">
 
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/prev_close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:foregroundGravity="center"
-            app:layout_columnSpan="1"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnWeight="1"
-            app:image_source="@drawable/prev_close"
             app:backgroundTint="#9c8b68"
-            app:stock_detail_title="Prev. Close"
-            />
+            app:layout_columnWeight="1"
+            stock:image_source="@drawable/prev_close"
+            stock:stock_detail_title="Prev. Close"
+            stock:icon_tint="@color/muted_yellow"
+            style="@style/DetailStockView" />
+
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/high"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@drawable/high"
-            app:stock_detail_title="High"
-            />
+            stock:image_source="@drawable/high"
+            stock:stock_detail_title="High"
+            stock:icon_tint="@color/light_green"
+            style="@style/DetailStockView" />
+
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/volume"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@drawable/volume"
-            app:stock_detail_title="Volume"
-            />
+            stock:image_source="@drawable/volume"
+            stock:stock_detail_title="Volume"
+            stock:icon_tint="@color/blue"
+            style="@style/DetailStockView" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_columnSpan="3"/>
+
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@drawable/open"
-            app:stock_detail_title="Open"
-            />
+            stock:image_source="@drawable/open"
+            stock:stock_detail_title="Open"
+            stock:icon_tint="@color/light_blue"
+            style="@style/DetailStockView" />
+
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/low"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@drawable/low"
-            app:stock_detail_title="Low"
-            />
+            stock:image_source="@drawable/low"
+            stock:stock_detail_title="Low"
+            stock:icon_tint="@color/wine_red"
+            style="@style/DetailStockView" />
+
         <com.sam_chordas.android.stockhawk.ui.DetailStockView
             android:id="@+id/mkt_cap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="1"
             app:layout_columnWeight="1"
-            app:image_source="@drawable/mkt_cap"
-            app:stock_detail_title="Mkt. Cap."
+            stock:image_source="@drawable/mkt_cap"
+            stock:stock_detail_title="Mkt. Cap."
+            stock:icon_tint="@color/dark_yellow"
+            style="@style/DetailStockView"
             />
 
     </android.support.v7.widget.GridLayout>

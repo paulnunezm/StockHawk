@@ -20,19 +20,26 @@
     </style>
 
     <style name="StockSymbolTextStyle">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="StockNameTextStyle">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="MyFloatingButton" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="DetailStockView" >
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_gravity">fill_vertical</item>
+        <item name="android:foregroundGravity">center</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
 
 </resources>

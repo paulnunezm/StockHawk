@@ -3,5 +3,6 @@
     <declare-styleable name="DetailStockView">
         <attr name="image_source" format="reference"></attr>
         <attr name="stock_detail_title" format="string"></attr>
+        <attr name="icon_tint" format="color"></attr>
     </declare-styleable>
 </resources>
