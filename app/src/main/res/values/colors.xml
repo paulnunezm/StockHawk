@@ -9,12 +9,18 @@
   <color name="accent">#697d8d</color>
   <color name="primary_dark">#0c141b</color>
   <color name="background_color">#192733</color>
+  <color name="background_transparent_color">#88192733</color>
+  <color name="white">#FFF</color>
+  <color name="transparent">@android:color/transparent</color>
 
   <!--Icon colors-->
   <color name="muted_yellow">#a9966d</color>
   <color name="dark_yellow">#928644</color>
   <color name="light_green">#2c8c49</color>
+  <color name="lighter_green">#2eea9c</color>
+  <color name="alpha_green">#802d855a</color>
   <color name="blue">#378abb</color>
   <color name="light_blue">#2c97a1</color>
   <color name="wine_red">#b03c42</color>
+
 </resources>

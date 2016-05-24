@@ -31,6 +31,23 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="WidgetPercentChangeTextStyle" parent="PercentChangeTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="WidgetBidPriceTextStyle" parent="BidPriceTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WidgetStockSymbolTextStyle" parent="StockSymbolTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WidgetStockNameTextStyle" parent="StockNameTextStyle">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="MyFloatingButton" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/accent</item>
     </style>
@@ -40,6 +57,16 @@
         <item name="android:layout_gravity">fill_vertical</item>
         <item name="android:foregroundGravity">center</item>
         <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="date_selector">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/light_green</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
 
 </resources>

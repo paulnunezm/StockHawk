@@ -1,19 +1,27 @@
 <resources>
-  <string name="app_name" translatable="false">Stock Hawk</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
 
-  <string name="action_example">Example action</string>
+    <string name="action_example">Example action</string>
 
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="msg_stock_already_saved">This stock is already saved!</string>
 
-  <!-- Preferences -->
-  <string name="pref_stock" translatable="false">stock</string>
-  <string name="pref_symbol_added" translatable="false">symbol</string>
-  <string name="err_adding_stock">Error adding stock symbol</string>
-  <string name="msg_stock_already_saved">This stock is already saved!</string>
+    <!-- errors -->
+    <string name="err_adding_stock">Error adding stock symbol</string>
+
+    <!-- Preferences -->
+    <string name="pref_stock" translatable="false">stock</string>
+    <string name="pref_symbol_added" translatable="false">symbol</string>
+
+    <!-- Widget -->
+    <string name="appwidget_text">Stocks</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_view_text">No stock information available.</string>
+    <string name="widget_title">My stocks</string>
 </resources>

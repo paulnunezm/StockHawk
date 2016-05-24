@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/one_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1D"
+        style="@style/date_selector"
+        android:background="@color/light_green"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/seven_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7D"
+        style="@style/date_selector"/>
+
+    <TextView
+        android:id="@+id/one_moth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1M"
+        style="@style/date_selector"/>
+
+    <TextView
+        android:id="@+id/six_months"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6M"
+        style="@style/date_selector"/>
+
+    <TextView
+        android:id="@+id/one_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1Y"
+        style="@style/date_selector"/>
+
+
+
+</LinearLayout>
