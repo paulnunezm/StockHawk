@@ -67,8 +67,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mContext = this;
 
         isConnected =  Utils.isDeviceConected(mContext);
-
+        
         setContentView(R.layout.activity_my_stocks);
+
+        initializeFabButton();
 
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
@@ -83,6 +85,37 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }
         }
 
+        initializeRecyclerView();
+
+        mTitle = getTitle();
+        if (isConnected) {
+            long period = 3600L;
+            long flex = 10L;
+            String periodicTag = "periodic";
+
+            // create a periodic task to pull stocks once every hour after the app has been opened. This
+            // is so Widget data stays up to date.
+            PeriodicTask periodicTask = new PeriodicTask.Builder()
+                    .setService(StockTaskService.class)
+                    .setPeriod(period)
+                    .setFlex(flex)
+                    .setTag(periodicTag)
+                    .setRequiredNetwork(Task.NETWORK_STATE_CONNECTED)
+                    .setRequiresCharging(false)
+                    .build();
+            // Schedule task with tag "periodic." This ensure that only the stocks present in the DB
+            // are updated.
+            GcmNetworkManager.getInstance(this).schedule(periodicTask);
+        }
+
+        // For listening to sharedPreferences changes
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_stock), MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+
+    }
+
+    private void initializeRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
@@ -92,6 +125,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this, this));
         recyclerView.setAdapter(mCursorAdapter);
 
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void initializeFabButton() {
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,36 +171,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
             }
         });
-
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-
-        mTitle = getTitle();
-        if (isConnected) {
-            long period = 3600L;
-            long flex = 10L;
-            String periodicTag = "periodic";
-
-            // create a periodic task to pull stocks once every hour after the app has been opened. This
-            // is so Widget data stays up to date.
-            PeriodicTask periodicTask = new PeriodicTask.Builder()
-                    .setService(StockTaskService.class)
-                    .setPeriod(period)
-                    .setFlex(flex)
-                    .setTag(periodicTag)
-                    .setRequiredNetwork(Task.NETWORK_STATE_CONNECTED)
-                    .setRequiresCharging(false)
-                    .build();
-            // Schedule task with tag "periodic." This ensure that only the stocks present in the DB
-            // are updated.
-            GcmNetworkManager.getInstance(this).schedule(periodicTask);
-        }
-
-        // For listening to sharedpreferences changes
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_stock), MODE_PRIVATE);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
         Animation fabAnim = AnimationUtils.loadAnimation(this, R.anim.scale_anim);
         fabAnim.setStartOffset(500);
         fab.setAnimation(fabAnim);
