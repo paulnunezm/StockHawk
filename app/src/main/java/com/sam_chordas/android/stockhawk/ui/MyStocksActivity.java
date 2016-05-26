@@ -67,7 +67,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mContext = this;
 
         isConnected =  Utils.isDeviceConected(mContext);
-        
+
         setContentView(R.layout.activity_my_stocks);
 
         initializeFabButton();
@@ -184,7 +184,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
 
     public void networkErrorToast() {
-        Snackbar.make(fab, getString(R.string.network_toast), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(fab, getString(R.string.err_network), Snackbar.LENGTH_LONG).show();
     }
 
     public void restoreActionBar() {
