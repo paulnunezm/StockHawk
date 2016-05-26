@@ -1,6 +1,9 @@
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.ContentProviderOperation;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
@@ -19,6 +22,14 @@ public class Utils {
 
     public static boolean showPercent = true;
     private static String LOG_TAG = Utils.class.getSimpleName();
+
+    public static boolean isDeviceConected(Context contex){
+        ConnectivityManager cm =
+            (ConnectivityManager) contex.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+    }
 
     public static ArrayList quoteJsonToContentVals(String JSON) {
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
@@ -112,4 +123,6 @@ public class Utils {
         }
         return builder.build();
     }
+
+
 }

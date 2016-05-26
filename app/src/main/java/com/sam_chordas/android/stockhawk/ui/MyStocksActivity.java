@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -69,12 +67,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         super.onCreate(savedInstanceState);
         mContext = this;
 
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        isConnected =  Utils.isDeviceConected(mContext);
         setContentView(R.layout.activity_my_stocks);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
@@ -96,29 +89,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter = new QuoteCursorAdapter(this, null);
 
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this, this));
-//        recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
-//                new RecyclerViewItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View v, int position) {
-//                        // do something on item click
-//                        Intent intent = new Intent(MyStocksActivity.this, HistoricalActivity.class);
-//                        ActivityOptionsCompat activityOptions =
-//                                ActivityOptionsCompat.makeSceneTransitionAnimation(MyStocksActivity.this);
-//
-//                        Bundle bundle = new Bundle();
-//
-////                Cursor zcursor = mCursorAdapter.getCursor();
-////                long id = mCursorAdapter.getItemId(position);
-////
-////                Log.d(TAG, "onItemClick: "+zcursor.getString((int) id));
-//
-//                        Log.d(TAG, "onItemClick: " + mCursor);
-////                bundle.putString(INTENT_EXTRA_SYMBOL, mCursorAdapter.getItemId(position) );
-////                bundle.putString(INTENT_EXTRA_NAME,);
-//                        intent.putExtras(bundle);
-//                        startActivity(intent, activityOptions.toBundle());
-//                    }
-//                }));
         recyclerView.setAdapter(mCursorAdapter);
 
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
