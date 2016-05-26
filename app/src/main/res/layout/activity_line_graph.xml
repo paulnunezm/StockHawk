@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="30sp"
+            android:textSize="26sp"
             tools:text="GOOGL"/>
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:textColor="@color/accent"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="Alphabet"/>
 
         <include layout="@layout/date_selector"/>
@@ -51,7 +51,7 @@
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"/>
     <!--<LinearLayout-->
@@ -66,11 +66,12 @@
         android:id="@+id/stock_details_grid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:paddingTop="15dp"
+        android:layout_weight="5"
+        android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:background="@color/background_color"
+        android:layout_gravity="fill_vertical"
         app:columnCount="3">
 
         <com.sam_chordas.android.stockhawk.ui.DetailStockView

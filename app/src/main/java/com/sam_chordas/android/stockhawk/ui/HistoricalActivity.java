@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,7 +31,6 @@ import com.squareup.okhttp.Response;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -39,36 +39,38 @@ import java.util.Locale;
  */
 public class
 HistoricalActivity extends AppCompatActivity implements Callback,
-  View.OnClickListener{
+    View.OnClickListener {
   private static final String TAG = "HistoricalActivity";
 
+  private boolean         chartHaveData;
   private DetailStockView prevClose;
   private DetailStockView high;
   private DetailStockView volume;
   private DetailStockView open;
   private DetailStockView low;
   private DetailStockView mktCap;
-  private LineChartView linechart;
-  private TextView  mStockName;
-  private TextView  mStockSymbol;
-  private TextView  mOneDaySelector;
-  private TextView  mSevenDaysSelector;
-  private TextView  mOneMonthSelector;
-  private TextView  mSixMonthSelector;
-  private TextView  mOneYearSelector;
+  private LineChartView   linechart;
+  private TextView        mStockName;
+  private TextView        mStockSymbol;
+  private TextView        mOneDaySelector;
+  private TextView        mOneMonthSelector;
+  private TextView        mTwoMonthSelector;
+  private TextView        mFourMonthSelector;
+  private TextView        mSixMonthSelector;
 
   private ArrayList<TextView> chartRange;
-  private Tooltip mTip;
-  private String stockName;
-  private String stockSymbol;
-  private String mUrl;
-  private int mActiveRange;
+  private Tooltip             mTip;
+  private String              stockName;
+  private String              stockSymbol;
+  private String              mUrl;
+  private int                 mActiveRange;
   // Dates
   DateTime today;
-  DateTime aWeekAgo;
+  DateTime yesterday;
   DateTime aMonthAgo;
+  DateTime twoMonthsAgo;
+  DateTime fourMonthsAgo;
   DateTime sixMonthsAgo;
-  DateTime aYearAgo;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,12 +80,15 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     Intent intent = getIntent();
 
     today = new DateTime();
-    aWeekAgo = today.minusDays(7);
+    yesterday = today.minusDays(1);
     aMonthAgo = today.minusMonths(1);
+    twoMonthsAgo = today.minusMonths(2);
+    fourMonthsAgo = today.minusMonths(4);
     sixMonthsAgo = today.minusMonths(6);
-    aYearAgo = today.minusYears(1);
 
-    initalizeViews();
+    chartHaveData = false;
+
+    initializeViews();
     setRangeOnClickListeners();
 
     if (intent != null) {
@@ -94,44 +99,54 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       mStockName.setText(stockName);
       mStockSymbol.setText(stockSymbol);
 
-      mUrl = buildHistoricalUrlRequest(stockSymbol, today);
+      mActiveRange = 0;
+      changeRange(1);
 
-      OkHttpClient client = new OkHttpClient();
-      Log.d(TAG, "onCreate: "+mUrl);
-      final Request request = new Request.Builder()
-          .url(mUrl)
-          .build();
+      mUrl = buildHistoricalUrlRequest(stockSymbol, aMonthAgo, today);
 
-      client.networkInterceptors().add(new StethoInterceptor());
-      client.newCall(request).enqueue(this);
+      try {
+
+        requestHistorical(mUrl);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
     } else {
       //TODO: show error message
 
-
+      showErrorMessage();
     }
 
 
 
-    mActiveRange = 0;
-
 //    String testUrl = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22GOOGL%22%20and%20startDate%20%3D%20%222016-03-01%22%20and%20endDate%20%3D%20%222016-03-10%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 
-    if(savedInstanceState==null){
+    if (savedInstanceState == null) {
 
     }
 
   }
 
+  private void requestHistorical(String mUrl) {
+    OkHttpClient client = new OkHttpClient();
+    final Request request = new Request.Builder()
+        .url(mUrl)
+        .build();
 
-  private void initalizeViews() {
+    client.networkInterceptors().add(new StethoInterceptor());
+    client.newCall(request).enqueue(this);
+  }
+
+
+  private void initializeViews() {
     mStockName = (TextView) findViewById(R.id.stock_name);
     mStockSymbol = (TextView) findViewById(R.id.stock_symbol);
     mOneDaySelector = (TextView) findViewById(R.id.one_day);
-    mSevenDaysSelector = (TextView) findViewById(R.id.seven_days);
     mOneMonthSelector = (TextView) findViewById(R.id.one_moth);
+    mTwoMonthSelector = (TextView) findViewById(R.id.two_months);
+    mFourMonthSelector = (TextView) findViewById(R.id.four_months);
     mSixMonthSelector = (TextView) findViewById(R.id.six_months);
-    mOneYearSelector = (TextView) findViewById(R.id.one_year);
     prevClose = (DetailStockView) findViewById(R.id.prev_close);
     high = (DetailStockView) findViewById(R.id.high);
     volume = (DetailStockView) findViewById(R.id.volume);
@@ -143,10 +158,11 @@ HistoricalActivity extends AppCompatActivity implements Callback,
 
     chartRange = new ArrayList<>(5);
     chartRange.add(mOneDaySelector);
-    chartRange.add(mSevenDaysSelector);
     chartRange.add(mOneMonthSelector);
+    chartRange.add(mTwoMonthSelector);
+    chartRange.add(mFourMonthSelector);
     chartRange.add(mSixMonthSelector);
-    chartRange.add(mOneYearSelector);
+
   }
 
   private void hideLoading() {
@@ -156,15 +172,19 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private void showErrorMessage() {
   }
 
-  private void setRangeOnClickListeners(){
-    mOneDaySelector.setOnClickListener(this);
-    mSevenDaysSelector.setOnClickListener(this);
-    mOneMonthSelector.setOnClickListener(this);
-    mSixMonthSelector.setOnClickListener(this);
-    mOneYearSelector.setOnClickListener(this);
+  private void setRangeOnClickListeners() {
+//    mOneDaySelector.setOnClickListener(this);
+//    mOneMonthSelector.setOnClickListener(this);
+//    mTwoMonthSelector.setOnClickListener(this);
+//    mFourMonthSelector.setOnClickListener(this);
+//    mSixMonthSelector.setOnClickListener(this);
+
+    for(int i = 0; i < chartRange.size(); i++){
+      chartRange.get(i).setOnClickListener(HistoricalActivity.this);
+    }
   }
 
-  private void changeRange(int selectedRange){
+  private void changeRange(int selectedRange) {
     TextView actualRange = chartRange.get(mActiveRange);
     actualRange.setBackgroundColor(getResources().getColor(R.color.transparent));
     actualRange.setTextColor(getResources().getColor(R.color.light_green));
@@ -176,12 +196,12 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     mActiveRange = selectedRange;
   }
 
-  private String buildHistoricalUrlRequest(String symbol, DateTime startingDate) {
+  private String buildHistoricalUrlRequest(String symbol, DateTime startingDate, DateTime today) {
 
-    String startDate = String.valueOf(today.getYear())+"-"+String.valueOf(today.getMonthOfYear())
-        + "-" + String.valueOf(today.getDayOfMonth());
+    String startDate = getFormatedDate(startingDate);
+    String endDate = getFormatedDate(today);
 
-    String endDate = startDate;
+    Log.d(TAG, "buildHistoricalUrlRequest: startdate:"+startDate+"\nendDate:"+endDate);
 
     String url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo." +
         "finance.historicaldata%20where%20symbol%20%3D%20%22" + symbol + "%22%20and%20" +
@@ -189,9 +209,15 @@ HistoricalActivity extends AppCompatActivity implements Callback,
         "format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org" +
         "%2Falltableswithkeys&callback=";
 
-    url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%2220016-04-27%22%20and%20endDate%20%3D%20%222016-04-27%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-    url = URLEncoder.encode(url);
+    // url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22GOOGL%22%20and%20startDate%20%3D%20%222015-09-11%22%20and%20endDate%20%3D%20%222016-03-10%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+//    url = URLEncoder.encode(url);
     return url;
+  }
+
+  @NonNull
+  private String getFormatedDate(DateTime date) {
+    return String.valueOf(date.getYear()) + "-" + String.valueOf(date.getMonthOfYear())
+        + "-" + String.valueOf(date.getDayOfMonth());
   }
 
   private void setTodaysValues(StockHistory.Values todaysValues) {
@@ -226,6 +252,10 @@ HistoricalActivity extends AppCompatActivity implements Callback,
 
     prepareTooltip();
 
+    if(chartHaveData){
+      linechart.dismiss();
+    }
+
     LineSet dataset = new LineSet(labelsArray, pointsArray);
     dataset.setColor(getResources().getColor(R.color.lighter_green))
         .setSmooth(true)
@@ -233,7 +263,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
         .setDotsColor(getResources().getColor(R.color.light_blue))
         .setGradientFill(new int[]{Color.parseColor("#364d5a"), Color.parseColor("#3f7178")}, null)
         .setThickness(5)
-        .setDotsRadius(15);
+        .setDotsRadius(10);
+
 
     linechart.addData(dataset);
     linechart.setXAxis(false);
@@ -242,6 +273,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     linechart.setXLabels(AxisController.LabelPosition.NONE);
     linechart.setTooltips(mTip);
     linechart.show();
+
+    chartHaveData = true;
   }
 
   private void prepareTooltip() {
@@ -286,13 +319,19 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          setTodaysValues(todayValues);
+
+          // to show only today's data
+          if(!chartHaveData){
+            setTodaysValues(todayValues);
+          }
+
           setChartValues(values);
         }
       });
 
     } catch (Exception e) {
       e.printStackTrace();
+      Log.e(TAG, "onResponse: "+ e.toString());
     }
   }
 
@@ -301,25 +340,41 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   @Override
   public void onClick(View v) {
 
-    switch (v.getId()){
-      case R.id.one_day:
-        changeRange(0);
-        break;
-      case R.id.seven_days:
-        changeRange(1);
-        break;
-      case R.id.one_moth:
-        changeRange(2);
-        break;
-      case R.id.six_months:
-        changeRange(3);
-        break;
-      case R.id.one_year:
-        changeRange(4);
-        break;
-      case R.id.prev_close:
-        changeRange(5);
-        break;
+    DateTime startDate;
+
+    try {
+
+      switch (v.getId()) {
+        case R.id.one_day:
+          changeRange(0);
+          startDate = yesterday;
+          break;
+        case R.id.one_moth:
+          changeRange(1);
+          startDate = aMonthAgo;
+          break;
+        case R.id.two_months:
+          changeRange(2);
+          startDate = twoMonthsAgo;
+          break;
+        case R.id.four_months:
+          changeRange(3);
+          startDate = fourMonthsAgo;
+          break;
+        case R.id.six_months:
+          changeRange(4);
+          startDate = sixMonthsAgo;
+          break;
+        default:
+          startDate = yesterday;
+          break;
+      }
+
+      mUrl = buildHistoricalUrlRequest(stockSymbol, startDate, today);
+      requestHistorical(mUrl);
+
+    }catch (Exception e){
+      e.printStackTrace();
     }
 
   }
