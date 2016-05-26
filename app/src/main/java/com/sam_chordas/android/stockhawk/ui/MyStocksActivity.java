@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +67,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mContext = this;
 
         isConnected =  Utils.isDeviceConected(mContext);
+
         setContentView(R.layout.activity_my_stocks);
+
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
         mServiceIntent = new Intent(this, StockIntentService.class);
@@ -78,7 +79,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             if (isConnected) {
                 startService(mServiceIntent);
             } else {
-                networkToast();
+                networkErrorToast();
             }
         }
 
@@ -125,7 +126,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                             })
                             .show();
                 } else {
-                    networkToast();
+                    networkErrorToast();
                 }
 
             }
@@ -172,8 +173,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
-    public void networkToast() {
-//    Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
+    public void networkErrorToast() {
         Snackbar.make(fab, getString(R.string.network_toast), Snackbar.LENGTH_LONG).show();
     }
 
@@ -236,12 +236,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d("MAIN_ACT", "OnsharedPref  - " + key);
         if (key.equals(getString(R.string.pref_symbol_added))) {
             boolean symbolAdded = sharedPreferences.getBoolean(getString(R.string.pref_symbol_added), true);
-            Log.d("MAIN_ACT", "OnsharedPref  - " + String.valueOf(symbolAdded));
             if (!symbolAdded) {
-                Log.d("MAIN_ACT", "snackbar  - ");
                 Snackbar.make(fab, R.string.err_adding_stock, Snackbar.LENGTH_SHORT).show();
             }
         }
@@ -250,18 +247,23 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     public void onItemClick(View v, int position) {
         // do something on item click
-        Intent intent = new Intent(MyStocksActivity.this, HistoricalActivity.class);
-        ActivityOptionsCompat activityOptions =
+
+        if(isConnected) {
+            Intent intent = new Intent(MyStocksActivity.this, HistoricalActivity.class);
+            ActivityOptionsCompat activityOptions =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(MyStocksActivity.this);
 
-        Bundle bundle = new Bundle();
+            Bundle bundle = new Bundle();
 
-        Cursor cursor = mCursorAdapter.getCursor();
-        cursor.moveToPosition(position);
+            Cursor cursor = mCursorAdapter.getCursor();
+            cursor.moveToPosition(position);
 
-        bundle.putString(INTENT_EXTRA_SYMBOL, cursor.getString(COLUMN_SYMBOL));
-        bundle.putString(INTENT_EXTRA_NAME, cursor.getString(COLUMN_NAME));
-        intent.putExtras(bundle);
-        startActivity(intent, activityOptions.toBundle());
+            bundle.putString(INTENT_EXTRA_SYMBOL, cursor.getString(COLUMN_SYMBOL));
+            bundle.putString(INTENT_EXTRA_NAME, cursor.getString(COLUMN_NAME));
+            intent.putExtras(bundle);
+            startActivity(intent, activityOptions.toBundle());
+        }else{
+            networkErrorToast();
+        }
     }
 }
