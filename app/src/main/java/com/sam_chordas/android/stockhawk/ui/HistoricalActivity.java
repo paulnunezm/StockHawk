@@ -101,7 +101,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       mStockSymbol.setText(stockSymbol);
 
       mActiveRange = 0;
-      changeRange(1);
+      changeRange(0);
 
       mUrl = buildHistoricalUrlRequest(stockSymbol, aMonthAgo, today);
 
@@ -141,7 +141,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private void initializeViews() {
     mStockName = (TextView) findViewById(R.id.stock_name);
     mStockSymbol = (TextView) findViewById(R.id.stock_symbol);
-    mOneDaySelector = (TextView) findViewById(R.id.one_day);
+//    mOneDaySelector = (TextView) findViewById(R.id.one_day);
     mOneMonthSelector = (TextView) findViewById(R.id.one_moth);
     mTwoMonthSelector = (TextView) findViewById(R.id.two_months);
     mFourMonthSelector = (TextView) findViewById(R.id.four_months);
@@ -157,7 +157,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     mContent = findViewById(R.id.content);
 
     chartRange = new ArrayList<>(5);
-    chartRange.add(mOneDaySelector);
+//    chartRange.add(mOneDaySelector);
     chartRange.add(mOneMonthSelector);
     chartRange.add(mTwoMonthSelector);
     chartRange.add(mFourMonthSelector);
@@ -350,28 +350,24 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     try {
 
       switch (v.getId()) {
-        case R.id.one_day:
-          changeRange(0);
-          startDate = yesterday;
-          break;
         case R.id.one_moth:
-          changeRange(1);
+          changeRange(0);
           startDate = aMonthAgo;
           break;
         case R.id.two_months:
-          changeRange(2);
+          changeRange(1);
           startDate = twoMonthsAgo;
           break;
         case R.id.four_months:
-          changeRange(3);
+          changeRange(2);
           startDate = fourMonthsAgo;
           break;
         case R.id.six_months:
-          changeRange(4);
+          changeRange(3);
           startDate = sixMonthsAgo;
           break;
         default:
-          startDate = yesterday;
+          startDate = aMonthAgo;
           break;
       }
 
