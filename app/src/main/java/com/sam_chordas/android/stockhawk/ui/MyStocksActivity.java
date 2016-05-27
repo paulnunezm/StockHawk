@@ -55,7 +55,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private Context mContext;
     private Cursor mCursor;
     boolean isConnected;
+    private View emptyView;
     private android.support.design.widget.FloatingActionButton fab;
+    private RecyclerView recyclerView;
     public static final String INTENT_EXTRA_SYMBOL = "symbol";
     public static final String INTENT_EXTRA_NAME = "name";
     private static int COLUMN_NAME = 3;
@@ -69,6 +71,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         isConnected =  Utils.isDeviceConected(mContext);
 
         setContentView(R.layout.activity_my_stocks);
+
+        emptyView = findViewById(R.id.empty_view);
+
 
         initializeFabButton();
 
@@ -116,7 +121,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
 
     private void initializeRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
@@ -176,11 +181,20 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         fab.setAnimation(fabAnim);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
+    }
+
+    public void showEmptyView(){
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideEmptyView(){
+        emptyView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     public void networkErrorToast() {
@@ -237,6 +251,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
         mCursor = data;
+
+        if(mCursorAdapter.getItemCount() == 0){
+            showEmptyView();
+        }else{
+            hideEmptyView();
+        }
     }
 
     @Override
