@@ -57,6 +57,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private TextView        mTwoMonthSelector;
   private TextView        mFourMonthSelector;
   private TextView        mSixMonthSelector;
+  private View            mContent;
 
   private ArrayList<TextView> chartRange;
   private Tooltip             mTip;
@@ -113,8 +114,6 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       }
 
     } else {
-      //TODO: show error message
-
       showErrorMessage();
     }
 
@@ -155,6 +154,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     mktCap = (DetailStockView) findViewById(R.id.mkt_cap);
     linechart = (LineChartView) findViewById(R.id.chart);
     mTip = new Tooltip(this, R.layout.linechart_tooltip, R.id.value);
+    mContent = findViewById(R.id.content);
 
     chartRange = new ArrayList<>(5);
     chartRange.add(mOneDaySelector);
@@ -166,7 +166,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   }
 
   private void hideLoading() {
-
+    mContent.setVisibility(View.VISIBLE);
   }
 
   private void showErrorMessage() {
@@ -319,6 +319,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
+
+          hideLoading();
 
           // to show only today's data
           if(!chartHaveData){
