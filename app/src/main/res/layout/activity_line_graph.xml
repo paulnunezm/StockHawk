@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,15 +52,27 @@
 
             <include layout="@layout/date_selector"/>
 
-        </LinearLayout>
-
-        <com.db.chart.view.LineChartView
-            android:id="@+id/chart"
+        </LinearLayout>4
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"/>
+            android:layout_weight="4">
+
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"/>
+
+            <com.db.chart.view.LineChartView
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"/>
+
+
+        </FrameLayout>
 
         <android.support.v7.widget.GridLayout
             android:id="@+id/stock_details_grid"
