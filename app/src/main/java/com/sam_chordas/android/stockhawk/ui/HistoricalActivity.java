@@ -1,6 +1,7 @@
 package com.sam_chordas.android.stockhawk.ui;
 
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
@@ -43,6 +45,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private static final String TAG = "HistoricalActivity";
 
   private boolean         chartHaveData;
+  private Context         context;
   private DetailStockView prevClose;
   private DetailStockView high;
   private DetailStockView volume;
@@ -80,6 +83,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
 
     Intent intent = getIntent();
 
+    context = this;
+
     today = new DateTime();
     yesterday = today.minusDays(1);
     aMonthAgo = today.minusMonths(1);
@@ -92,7 +97,7 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     initializeViews();
     setRangeOnClickListeners();
 
-    if (intent != null) {
+    if (intent != null && savedInstanceState == null) {
       Bundle extras = intent.getExtras();
       stockName = extras.getString(MyStocksActivity.INTENT_EXTRA_NAME);
       stockSymbol = extras.getString(MyStocksActivity.INTENT_EXTRA_SYMBOL).toUpperCase();
@@ -106,24 +111,14 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       mUrl = buildHistoricalUrlRequest(stockSymbol, aMonthAgo, today);
 
       try {
-
         requestHistorical(mUrl);
-
       } catch (Exception e) {
         e.printStackTrace();
       }
-
     } else {
       showErrorMessage();
     }
 
-
-
-//    String testUrl = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22GOOGL%22%20and%20startDate%20%3D%20%222016-03-01%22%20and%20endDate%20%3D%20%222016-03-10%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-
-    if (savedInstanceState == null) {
-
-    }
 
   }
 
@@ -178,7 +173,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     linechart.setVisibility(View.INVISIBLE);
   }
 
-  private void showErrorMessage() {
+  private void showErrorMessage(){
+    Toast.makeText(context,context.getString(R.string.err_unknown), Toast.LENGTH_SHORT).show();
   }
 
   private void setRangeOnClickListeners() {
@@ -222,8 +218,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   }
 
   private void setTodaysValues(StockHistory.Values todaysValues) {
-    mStockName.setText(stockName);
-    mStockSymbol.setText(stockSymbol);
+//    mStockName.setText(stockName);
+//    mStockSymbol.setText(stockSymbol);
     prevClose.setValueText(String.format(Locale.US, "%.2f", todaysValues.getAdj_Close()));
     high.setValueText(String.format(Locale.US, "%.2f", todaysValues.getHigh()));
     volume.setValueText(String.format(Locale.US, "%.2f", todaysValues.getVolume()));

@@ -21,6 +21,7 @@
     <!-- errors -->
     <string name="err_adding_stock">Error adding stock symbol</string>
     <string name="err_network">Uh-oh! This requires internet connection</string>
+    <string name="err_unknown">Ups! Something happened :/</string>
 
 
     <!-- Preferences -->
