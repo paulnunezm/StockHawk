@@ -12,6 +12,11 @@
     <string name="msg_stock_already_saved">This stock is already saved!</string>
     <string name="empty_stock_list">Hey you! \n You\'re not tracking any stock&#8230; \n Go add some!!</string>
 
+    <!--Accessibiity-->
+    <string name="a11y_stock_symbol">Sock symbol: %s.</string>
+    <string name="a11y_stock_name">Name: %s.</string>
+    <string name="a11y_stock_bidprice">Bid price: %s.</string>
+    <string name="a11y_stock_change">Change: %s.</string>
 
     <!-- errors -->
     <string name="err_adding_stock">Error adding stock symbol</string>
