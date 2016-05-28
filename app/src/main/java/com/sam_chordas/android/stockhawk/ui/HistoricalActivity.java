@@ -63,6 +63,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private View            mContent;
 
   private ArrayList<TextView> chartRange;
+  private ArrayList<StockHistory.Values> values ;
+  private StockHistory.Values todayValues;
   private Tooltip             mTip;
   private String              stockName;
   private String              stockSymbol;
@@ -75,6 +77,14 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   DateTime twoMonthsAgo;
   DateTime fourMonthsAgo;
   DateTime sixMonthsAgo;
+
+  //InstanceState
+  private static final String VALUES = "values";
+  private static final String TODAY_VALUES = "today_values";
+  private static final String STOCK_NAME = "stock_name";
+  private static final String STOCK_SYMBOL = "stock_symbol";
+  private static final String ACTIVE_RANGE = "active_range";
+
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,10 +107,30 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     initializeViews();
     setRangeOnClickListeners();
 
-    if (intent != null && savedInstanceState == null) {
+    if(savedInstanceState != null){
+
+      Log.d(TAG, "onCreate: saveInstanceState !=null");
+
+      stockName = (String) savedInstanceState.getSerializable(STOCK_NAME);
+      stockSymbol = (String) savedInstanceState.getSerializable(STOCK_SYMBOL);
+      todayValues = (StockHistory.Values) savedInstanceState.getSerializable(TODAY_VALUES);
+      values = (ArrayList<StockHistory.Values>) savedInstanceState.getSerializable(VALUES);
+      mActiveRange = savedInstanceState.getInt(ACTIVE_RANGE);
+      mStockName.setText(stockName);
+      mStockSymbol.setText(stockSymbol);
+
+
+      setTodaysValues(todayValues);
+      setChartValues(values);
+      changeRange(mActiveRange);
+      hideLoading();
+
+    }else if (intent != null && savedInstanceState == null) {
       Bundle extras = intent.getExtras();
       stockName = extras.getString(MyStocksActivity.INTENT_EXTRA_NAME);
       stockSymbol = extras.getString(MyStocksActivity.INTENT_EXTRA_SYMBOL).toUpperCase();
+
+      mUrl = buildHistoricalUrlRequest(stockSymbol, aMonthAgo, today);
 
       mStockName.setText(stockName);
       mStockSymbol.setText(stockSymbol);
@@ -112,7 +142,6 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       mActiveRange = 0;
       changeRange(0);
 
-      mUrl = buildHistoricalUrlRequest(stockSymbol, aMonthAgo, today);
 
       try {
         requestHistorical(mUrl);
@@ -122,9 +151,22 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     } else {
       showErrorMessage();
     }
-
-
   }
+
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+
+    Log.d(TAG, "onSaveInstanceState: ");
+    outState.putSerializable(VALUES, values);
+    outState.putSerializable(TODAY_VALUES, todayValues);
+    outState.putSerializable(STOCK_NAME, stockName);
+    outState.putSerializable(STOCK_SYMBOL, stockSymbol);
+    outState.putInt(ACTIVE_RANGE, mActiveRange);
+    super.onSaveInstanceState(outState);
+  }
+
+
 
   private void requestHistorical(String mUrl) {
     OkHttpClient client = new OkHttpClient();
@@ -211,6 +253,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
         "startDate%20%3D%20%22" + startDate + "%22%20and%20endDate%20%3D%20%22" + endDate + "%22&" +
         "format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org" +
         "%2Falltableswithkeys&callback=";
+
+    Log.d(TAG, "buildHistoricalUrlRequest: URL"+url);
 
     return url;
   }
@@ -330,8 +374,8 @@ HistoricalActivity extends AppCompatActivity implements Callback,
           .create();
 
       StockHistory history = gson.fromJson(json, StockHistory.class);
-      final ArrayList<StockHistory.Values> values = history.getHistory();
-      final StockHistory.Values todayValues = values.get(values.size() - 1);
+      values = history.getHistory();
+      todayValues = values.get(values.size() - 1);
 
       runOnUiThread(new Runnable() {
         @Override
@@ -351,6 +395,13 @@ HistoricalActivity extends AppCompatActivity implements Callback,
     } catch (Exception e) {
       e.printStackTrace();
       Log.e(TAG, "onResponse: "+ e.toString());
+
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          showErrorMessage();
+        }
+      });
     }
   }
 

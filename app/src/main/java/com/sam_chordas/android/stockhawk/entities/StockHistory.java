@@ -2,12 +2,13 @@ package com.sam_chordas.android.stockhawk.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by paulnunez on 4/22/16.
  */
-public class StockHistory {
+public class StockHistory implements Serializable {
 
 
     @SerializedName("quote")
@@ -18,7 +19,9 @@ public class StockHistory {
     }
 
 
-    public class Values {
+
+
+    public class Values implements Serializable{
         String Date;
         Float Open;
         Float High;
@@ -55,5 +58,7 @@ public class StockHistory {
             return Adj_Close;
         }
     }
+
+
 
 }

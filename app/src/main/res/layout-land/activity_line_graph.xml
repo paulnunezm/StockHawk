@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:stock="http://schemas.android.com/apk/res-auto/com.sam_chordas.android.stockhawk.ui"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@color/background_color">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="0dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp">
+
+                <TextView
+                    android:id="@+id/stock_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    tools:text="GOOGL"/>
+
+                <TextView
+                    android:id="@+id/stock_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/accent"
+                    android:textSize="18sp"
+                    tools:text="Alphabet"/>
+
+                <include layout="@layout/date_selector"/>
+
+            </LinearLayout>4
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingLeft="100dp"
+                android:paddingStart="100dp"
+                android:paddingRight="100dp"
+                android:paddingEnd="100dp">
+
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"/>
+
+                <com.db.chart.view.LineChartView
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"/>
+
+
+            </FrameLayout>
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/stock_details_grid"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="50dp"
+                android:paddingStart="50dp"
+                android:paddingRight="50dp"
+                android:paddingEnd="50dp"
+                android:paddingTop="10dp"
+                app:columnCount="3">
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/prev_close"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="#9c8b68"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/muted_yellow"
+                    stock:image_source="@drawable/prev_close"
+                    stock:stock_detail_title="Prev. Close"/>
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/high"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/light_green"
+                    stock:image_source="@drawable/high"
+                    stock:stock_detail_title="High"/>
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/volume"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/blue"
+                    stock:image_source="@drawable/volume"
+                    stock:stock_detail_title="Volume"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    app:layout_columnSpan="3"/>
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/open"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/light_blue"
+                    stock:image_source="@drawable/open"
+                    stock:stock_detail_title="Open"/>
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/low"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/wine_red"
+                    stock:image_source="@drawable/low"
+                    stock:stock_detail_title="Low"/>
+
+                <com.sam_chordas.android.stockhawk.ui.DetailStockView
+                    android:id="@+id/mkt_cap"
+                    style="@style/DetailStockView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    stock:icon_tint="@color/dark_yellow"
+                    stock:image_source="@drawable/mkt_cap"
+                    stock:stock_detail_title="Mkt. Cap."
+                    />
+
+            </android.support.v7.widget.GridLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+
+</ScrollView>
