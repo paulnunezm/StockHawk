@@ -105,6 +105,10 @@ HistoricalActivity extends AppCompatActivity implements Callback,
       mStockName.setText(stockName);
       mStockSymbol.setText(stockSymbol);
 
+      //A11y
+      mStockName.setContentDescription(stockName);
+      mStockSymbol.setContentDescription(stockSymbol);
+
       mActiveRange = 0;
       changeRange(0);
 
@@ -220,12 +224,28 @@ HistoricalActivity extends AppCompatActivity implements Callback,
   private void setTodaysValues(StockHistory.Values todaysValues) {
 //    mStockName.setText(stockName);
 //    mStockSymbol.setText(stockSymbol);
-    prevClose.setValueText(String.format(Locale.US, "%.2f", todaysValues.getAdj_Close()));
-    high.setValueText(String.format(Locale.US, "%.2f", todaysValues.getHigh()));
-    volume.setValueText(String.format(Locale.US, "%.2f", todaysValues.getVolume()));
-    open.setValueText(String.format(Locale.US, "%.2f", todaysValues.getOpen()));
-    low.setValueText(String.format(Locale.US, "%.2f", todaysValues.getLow()));
-    mktCap.setValueText(String.format(Locale.US, "%.2f", todaysValues.getClose()));
+
+    String prevCloseValue = String.format(Locale.US, "%.2f", todaysValues.getAdj_Close());
+    String highValue = String.format(Locale.US, "%.2f", todaysValues.getHigh());
+    String volumeValue = String.format(Locale.US, "%.2f", todaysValues.getVolume());
+    String openValue = String.format(Locale.US, "%.2f", todaysValues.getOpen());
+    String lowValue = String.format(Locale.US, "%.2f", todaysValues.getLow());
+    String mktCapValue = String.format(Locale.US, "%.2f", todaysValues.getClose());
+
+    prevClose.setValueText(prevCloseValue);
+    high.setValueText(highValue);
+    volume.setValueText(volumeValue);
+    open.setValueText(openValue);
+    low.setValueText(lowValue);
+    mktCap.setValueText(mktCapValue);
+
+    // A11y
+    prevClose.setContentDescription(prevCloseValue);
+    high.setContentDescription(highValue);
+    volume.setContentDescription(volumeValue);
+    open.setContentDescription(openValue);
+    low.setContentDescription(lowValue);
+    mktCap.setContentDescription(mktCapValue);
   }
 
   private void setChartValues(ArrayList<StockHistory.Values> mValues) {

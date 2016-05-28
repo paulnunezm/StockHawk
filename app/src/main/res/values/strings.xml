@@ -2,13 +2,11 @@
     <string name="app_name" translatable="false">Stock Hawk</string>
 
     <string name="action_example">Example action</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_change_units">Change Units</string>
     <string name="symbol_search">Symbol Search</string>
     <string name="content_test">Search for a Stock Symbol</string>
     <string name="input_hint">FB</string>
-    <string name="input_prefill"></string>
     <string name="msg_stock_already_saved">This stock is already saved!</string>
     <string name="empty_stock_list">Hey you! \n You\'re not tracking any stock&#8230; \n Go add some!!</string>
 
@@ -17,6 +15,12 @@
     <string name="a11y_stock_name">Name: %s.</string>
     <string name="a11y_stock_bidprice">Bid price: %s.</string>
     <string name="a11y_stock_change">Change: %s.</string>
+    <string name="a11y_prevClose">Previous close: %s</string>
+    <string name="a11y_high">High %s</string>
+    <string name="a11y_volume">Volume: %s</string>
+    <string name="a11y_open">Open: %s</string>
+    <string name="a11y_close">Close: %s</string>
+    <string name="a11y_market_cap">Market capitalization: %s</string>
 
     <!-- errors -->
     <string name="err_adding_stock">Error adding stock symbol</string>
