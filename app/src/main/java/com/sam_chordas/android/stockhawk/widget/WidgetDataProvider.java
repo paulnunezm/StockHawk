@@ -2,6 +2,7 @@ package com.sam_chordas.android.stockhawk.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Binder;
 import android.util.Log;
@@ -108,14 +109,25 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_list_item_quote);
 
-    rv.setTextViewText(R.id.stock_symbol, quotes.get(position).getSymbol());
-    rv.setTextViewText(R.id.stock_name,quotes.get(position).getName());
-    rv.setTextViewText(R.id.change, quotes.get(position).getChange());
+    String symbol = quotes.get(position).getSymbol();
+    String name = quotes.get(position).getName();
+    String change = quotes.get(position).getChange();
+
+    Resources resources = context.getResources();
+
+    rv.setTextViewText(R.id.stock_symbol, symbol);
+    rv.setTextViewText(R.id.stock_name, name);
+    rv.setTextViewText(R.id.change, change);
+
+    //Accessibility
+    rv.setContentDescription(R.id.stock_symbol, String.format(resources.getString(R.string.a11y_stock_name), symbol));
+    rv.setContentDescription(R.id.stock_name, String.format(resources.getString(R.string.a11y_stock_name), name));
+    rv.setContentDescription(R.id.change, String.format(resources.getString(R.string.a11y_stock_change), change));
 
     if (quotes.get(position).getIsUp().equals("1")){
-      rv.setTextColor(R.id.change, context.getResources().getColor(R.color.light_green));
+      rv.setTextColor(R.id.change, resources.getColor(R.color.light_green));
     } else{
-      rv.setTextColor(R.id.change, context.getResources().getColor(R.color.wine_red));
+      rv.setTextColor(R.id.change, resources.getColor(R.color.wine_red));
     }
 
     // Return the remote views object.
