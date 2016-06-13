@@ -4,7 +4,7 @@ An Android application for viewing and track your favorites Stocks! using data p
 ![1](/screenshots/stock_list.png?raw=true)
 ![2](/screenshots/stock_history.png?raw=true)
 
-# This is an application for the Udacity Android Nanodegree program in which was needed to:
+### This is an application for the Udacity Android Nanodegree program in which was needed to:
 - Add enhancements to the base app in order to make it production ready
 - Ensure that errors were handled gracefully
 - Build a widget for the home screen
@@ -12,11 +12,11 @@ An Android application for viewing and track your favorites Stocks! using data p
 - Make optimizations for localization
 - Visualize the stocks history
 
-# Extras
+## Extras
 - Redesign the app's view
 - Created custom views for the stock details views
 
-#Libraries
+##Libraries
 - **[OkHttp](https://square.github.io/okhttp/)** As a Http client.
 - **[Stetho](https://facebook.github.io/stetho/)** For intercepting the data requested and view it with Chrome.
 - **[Schematic](https://github.com/SimonVT/schematic)** To automatically generate a ContentProvider backed by an SQLite database.
@@ -24,4 +24,3 @@ An Android application for viewing and track your favorites Stocks! using data p
 - **[Gson](https://github.com/google/gson)** For parsing the network's JSON response.
 - **[Google Support Libraries]** To use the grid layout and fab button.
 - **[Google Play Services]** To create a scheduled task.
- 
