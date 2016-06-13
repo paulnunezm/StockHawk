@@ -4,7 +4,7 @@ An Android application for viewing and track your favorites Stocks! using data p
 ![1](/screenshots/stock_list.png?raw=true)
 ![2](/screenshots/stock_history.png?raw=true)
 
-### This is an application for the Udacity Android Nanodegree program in which was needed to:
+##### This is an application for the Udacity Android Nanodegree program in which was needed to:
 - Add enhancements to the base app in order to make it production ready
 - Ensure that errors were handled gracefully
 - Build a widget for the home screen
